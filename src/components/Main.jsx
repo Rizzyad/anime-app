@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const Main = ({ children }) => {
   return <main className="main"> {children}</main>;
 };
@@ -5,7 +7,14 @@ const Main = ({ children }) => {
 export default Main;
 
 export const Box = ({ children }) => {
-  return <div className="box">{children}</div>;
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className="box">
+      <Button isOpen={isOpen} setIsOpen={setIsOpen} />
+      {isOpen && children}
+    </div>
+  );
 };
 
 export const Button = ({ isOpen, setIsOpen }) => {

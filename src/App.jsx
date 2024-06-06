@@ -15,7 +15,6 @@ const App = () => {
   const [query, setQuery] = useState("");
   const [animes, setAnimes] = useState(loadFromLocalStorage("animesData"));
   const [selectedAnime, setSelectedAnime] = useState(animes[0]);
-  const [isOpen, setIsOpen] = useState(true);
 
   const handleSelectedAnime = (id) => {
     const newAnime = animes.filter((anime) => anime.mal_id === id);
@@ -32,13 +31,11 @@ const App = () => {
       </Navbar>
       <Main>
         <Box>
-          <Button isOpen={isOpen} setIsOpen={setIsOpen}/>
           <ListAnime>
             <Anime animes={animes} handleSelectedAnime={handleSelectedAnime}/>
           </ListAnime>
-        </Box>
+        </Box >
         <Box>
-          <Button isOpen={isOpen} setIsOpen={setIsOpen} />
           <DetailAnime>
             <DetailHeader selectedAnime={selectedAnime}/>
             <DetailSection selectedAnime={selectedAnime}/>
