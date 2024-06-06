@@ -1,15 +1,14 @@
-const Navbar = ({query, setQuery, animes}) => {
+const Navbar = ({children}) => {
   return (
     <nav className="nav-bar">
-      <Logo />
-      <SearchBar query={query} setQuery={setQuery}  animes={animes}/>
+      {children}
     </nav>
   );
 };
 
 export default Navbar;
 
-const Logo = () => {
+export const Logo = () => {
   return (
     <div className="logo">
       <span role="img">🍥</span>
@@ -19,7 +18,7 @@ const Logo = () => {
   );
 };
 
-const SearchBar = ({query, setQuery, animes}) => {
+export const SearchBar = ({ query, setQuery, children }) => {
   return (
     <div className="search-container">
       <input
@@ -29,9 +28,15 @@ const SearchBar = ({query, setQuery, animes}) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <p className="search-results">
-        Found <strong>{animes.length}</strong> results
-      </p>
+      {children}
     </div>
+  );
+};
+
+export const NumResult = ({animes}) => {
+  return (
+    <p className="search-results">
+      Found <strong>{animes.length}</strong> results
+    </p>
   );
 };
