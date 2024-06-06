@@ -1,8 +1,8 @@
-const Navbar = ({query, setQuery}) => {
+const Navbar = ({query, setQuery, animes}) => {
   return (
     <nav className="nav-bar">
       <Logo />
-      <SearchBar query={query} setQuery={setQuery} />
+      <SearchBar query={query} setQuery={setQuery}  animes={animes}/>
     </nav>
   );
 };
@@ -19,7 +19,7 @@ const Logo = () => {
   );
 };
 
-const SearchBar = ({query, setQuery}) => {
+const SearchBar = ({query, setQuery, animes}) => {
   return (
     <div className="search-container">
       <input
@@ -30,7 +30,7 @@ const SearchBar = ({query, setQuery}) => {
         onChange={(e) => setQuery(e.target.value)}
       />
       <p className="search-results">
-        Found <strong>4</strong> results
+        Found <strong>{animes.length}</strong> results
       </p>
     </div>
   );
