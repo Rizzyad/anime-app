@@ -6,21 +6,21 @@ import Navbar from "./components/Navbar";
 import ListBox from "./components/ListBox";
 import SelectedBox from "./components/SelectedBox";
 
-export default function App() {
+const App = () => {
   const [query, setQuery] = useState("");
-  const [animes, setAnimes] = useState(loadFromLocalStorage('animesData'));
+  const [animes, setAnimes] = useState(loadFromLocalStorage("animesData"));
   const [selectedAnime, setSelectedAnime] = useState(animes[0]);
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
 
-  function handleSelectedAnime(id) {
+  const handleSelectedAnime = (id) => {
     const newAnime = animes.filter((anime) => anime.mal_id === id);
     setSelectedAnime(newAnime[0]);
-  }
+  };
 
   return (
     <>
-      <Navbar query={query} setQuery={setQuery} animes={animes}/>
+      <Navbar query={query} setQuery={setQuery} animes={animes} />
       <main className="main">
         <ListBox
           isOpen1={isOpen1}
@@ -36,4 +36,6 @@ export default function App() {
       </main>
     </>
   );
-}
+};
+
+export default App;
