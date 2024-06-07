@@ -18,15 +18,21 @@ export const Logo = () => {
   );
 };
 
-export const SearchBar = ({ query, setQuery, children }) => {
+export const SearchBar = ({ query, handleSearch, setQuery,  setLoading,  children }) => {
   return (
     <div className="search-container">
       <input
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            handleSearch(event.target.value)
+            setLoading(true)
+          }
+        }}
         className="search"
         type="text"
         placeholder="Search anime..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        value={query || ""}
+        onChange={(e) => setQuery(e.target.value)}  
       />
       {children}
     </div>

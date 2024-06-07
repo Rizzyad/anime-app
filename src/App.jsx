@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { loadFromLocalStorage } from "./function/function";
 import { animesData } from "./data/animesData";
+import axios from "axios";
 import Navbar from "./components/Navbar";
 import { Logo, SearchBar, NumResult } from "./components/Navbar";
 import Main from "./components/Main";
@@ -13,32 +14,69 @@ import { DetailHeader, DetailSection } from "./components/DetailAnime";
 
 const App = () => {
   const [query, setQuery] = useState("");
-  const [animes, setAnimes] = useState(loadFromLocalStorage("animesData"));
-  const [selectedAnime, setSelectedAnime] = useState(animes[0]);
+  const [animes, setAnimes] = useState([]);
+  const [selectedAnime, setSelectedAnime] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAnimes = async () => {
+      try {
+        const response = await axios.get("https://api.jikan.moe/v4/top/anime");
+        setAnimes(response.data.data);
+        setSelectedAnime(response.data.data[0]);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+    fetchAnimes();
+  }, []);
 
   const handleSelectedAnime = (id) => {
     const newAnime = animes.filter((anime) => anime.mal_id === id);
     setSelectedAnime(newAnime[0]);
   };
 
+  const handleSearch = async (e) => {
+    e.preventDefault;
+    try {
+      const responseSearch = await axios.get(`https://api.jikan.moe/v4/anime?q=${query}&limit=5`);
+      setAnimes(responseSearch.data.data);
+      setLoading(false)
+    } catch (err) {
+      setError(err.message);
+      setLoading(false)
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <>
       <Navbar>
         <Logo />
-        <SearchBar query={query} setQuery={setQuery}>
-          <NumResult animes={animes}/>
+        <SearchBar query={query} handleSearch={handleSearch} setQuery={setQuery} setLoading={setLoading}>
+          <NumResult animes={animes} />
         </SearchBar>
       </Navbar>
       <Main>
         <Box>
           <ListAnime>
-            <Anime animes={animes} handleSelectedAnime={handleSelectedAnime}/>
+            <Anime animes={animes} handleSelectedAnime={handleSelectedAnime} />
           </ListAnime>
-        </Box >
+        </Box>
         <Box>
           <DetailAnime>
-            <DetailHeader selectedAnime={selectedAnime}/>
-            <DetailSection selectedAnime={selectedAnime}/>
+            <DetailHeader selectedAnime={selectedAnime} />
+            <DetailSection selectedAnime={selectedAnime} />
           </DetailAnime>
         </Box>
       </Main>
