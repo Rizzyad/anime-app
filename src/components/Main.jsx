@@ -11,13 +11,13 @@ export const Box = ({ children }) => {
 
   return (
     <div className="box">
-      <Button isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ToggleButton isOpen={isOpen} setIsOpen={setIsOpen} />
       {isOpen && children}
     </div>
   );
 };
 
-export const Button = ({ isOpen, setIsOpen }) => {
+export const ToggleButton = ({ isOpen, setIsOpen }) => {
   return (
     <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
       {isOpen ? "–" : "+"}
